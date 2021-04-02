@@ -50,5 +50,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChallengeThree.Repository\ChallengeThree.Repository.csproj">
+      <Project>{cff988a2-0dd0-45f9-af1b-6d297b09b304}</Project>
+      <Name>ChallengeThree.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TableMethods\TableMethods.csproj">
+      <Project>{c49f789e-2db3-4752-8fed-6b2f985e9b81}</Project>
+      <Name>TableMethods</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

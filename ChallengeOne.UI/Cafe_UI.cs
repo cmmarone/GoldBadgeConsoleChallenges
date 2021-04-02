@@ -122,19 +122,28 @@ namespace ChallengeOne.UI
             Console.WriteLine("Enter a description for the dish:\n");
             userMenuItem.Description = Console.ReadLine();
             Console.WriteLine(" ");
-            Console.WriteLine("Enter the dish ingredients, hitting enter after each ingredient.  Type 'done' and enter when finished.");
+            Console.WriteLine("Now for the ingredients...");
+            Console.WriteLine(" ");
             List<string> ingredientsListInput = new List<string>();
             bool keepRunning2 = true;
             while (keepRunning2)
             {
+
+                Console.WriteLine("Add a dish ingredient:");
                 string ingredientInput = Console.ReadLine();
-                if (ingredientInput == "done")
+                ingredientsListInput.Add(ingredientInput);
+                Console.WriteLine("The ingredient was added. Do you have more ingredients to add (y/n)?");
+                string userAnswer = Console.ReadLine();
+                switch (userAnswer)
                 {
-                    keepRunning2 = false;
-                }
-                else
-                {
-                    ingredientsListInput.Add(ingredientInput);
+                    case "y":
+                        break;
+                    case "n":
+                        keepRunning2 = false;
+                        break;
+                    default:
+                        keepRunning2 = false;
+                        break;
                 }
             }
             userMenuItem.Ingredients = ingredientsListInput;

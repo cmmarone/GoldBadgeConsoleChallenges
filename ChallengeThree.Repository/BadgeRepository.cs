@@ -8,17 +8,16 @@ namespace ChallengeThree.Repository
 {
     public class BadgeRepository
     {
-
         Dictionary<int, List<string>> _badgeDictionary = new Dictionary<int, List<string>>();
-        
 
-        public bool AddBadge(int newBadgeID, List<string> newDoorAccess)
+        public bool AddBadge(Badge badge)
         {
             int dictionarySizeBeforeAdd = _badgeDictionary.Count;
-            _badgeDictionary.Add(newBadgeID, newDoorAccess);
+            _badgeDictionary.Add(badge.BadgeID, badge.DoorAccess);
             bool wasAdded = (_badgeDictionary.Count > dictionarySizeBeforeAdd);
             return wasAdded;
         }
+
 
         public Dictionary<int, List<string>> GetAllBadges()
         {
@@ -27,11 +26,12 @@ namespace ChallengeThree.Repository
 
         public bool UpdateDoorAccess(int badgeID, List<string> updatedDoorAccess)
         {
-            Badge existingBadge = GetBadgeByID(badgeID);
-            if (existingBadge != null)
+            KeyValuePair<int, List<string>> existingBadge = GetBadgeByBadgeID(badgeID);
+
+            if (existingBadge.Value != null)
             {
-                existingBadge.BadgeID = existingBadge.BadgeID;
-                existingBadge.DoorAccess = updatedDoorAccess;
+                existingBadge.Value.Clear();
+                existingBadge.Value.AddRange(updatedDoorAccess);
                 return true;
             }
             else
@@ -42,10 +42,11 @@ namespace ChallengeThree.Repository
 
         public bool RemoveAllDoorAccess(int badgeID)
         {
-            Badge existingBadge = GetBadgeByID(badgeID);
-            if (existingBadge != null)
+            KeyValuePair<int, List<string>> existingBadge = GetBadgeByBadgeID(badgeID);
+
+            if (existingBadge.Value != null)
             {
-                existingBadge.DoorAccess.Clear();
+                existingBadge.Value.Clear();
                 return true;
             }
             else
@@ -54,21 +55,17 @@ namespace ChallengeThree.Repository
             }
         }
 
-        public Badge GetBadgeByID(int badgeID)
+        public KeyValuePair<int, List<string>> GetBadgeByBadgeID(int badgeID)
         {
-            List<string> doorAccess = new List<string>();
-            foreach (KeyValuePair in _badgeDictionary)
+            KeyValuePair<int, List<string>> emptyBadge = new KeyValuePair<int, List<string>>();
+            foreach (KeyValuePair<int, List<string>> badge in _badgeDictionary)
             {
-                if ( )
+                if (badge.Key == badgeID)
                 {
-                 
+                    return badge;
                 }
             }
-            return null;
+            return emptyBadge;
         }
-
-
-
-      
     }
 }

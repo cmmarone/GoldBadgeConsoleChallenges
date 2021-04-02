@@ -28,8 +28,6 @@ namespace ChallengeFive.UnitTests
 
 
 
-
-
         [TestMethod]
         public void AddCustomer_ShouldReturnTrue()
         {
