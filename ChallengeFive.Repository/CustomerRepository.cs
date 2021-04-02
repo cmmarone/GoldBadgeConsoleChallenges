@@ -29,7 +29,7 @@ namespace ChallengeFive.Repository
             if (existingCustomer != null)
             {
                 existingCustomer.LastName = updatedCustomer.LastName;
-                existingCustomer.FirstName = updatedCustomer.LastName;
+                existingCustomer.FirstName = updatedCustomer.FirstName;
                 existingCustomer.CustomerType = updatedCustomer.CustomerType;
                 return true;
             }

@@ -86,16 +86,25 @@ namespace ChallengeFive.UI
             Console.WriteLine(" ");
             Console.WriteLine("Enter the customer's last name:\n");
             string lastNameInput = Console.ReadLine().ToLower();
-            Console.WriteLine("    _________________________________________________________________________________________________________________________________");
-            Console.WriteLine("   |   First Name   |     Last Name     |    Type    |                                 Email Message                                 |");
-            Console.WriteLine("   |----------------|-------------------|------------|-------------------------------------------------------------------------------|");
             Customer foundCustomer = _customerRepo.GetCustomerByFullName(lastNameInput, firstNameInput);
-            Console.WriteLine($"   |{TableMethods.TableMethods.GenerateCell(foundCustomer.FirstName, "text", 16)}|" +
-                $"{TableMethods.TableMethods.GenerateCell(foundCustomer.LastName, "text", 19)}|" +
-                $"{TableMethods.TableMethods.GenerateCell(foundCustomer.CustomerType.ToString(), "text", 12)}|" +
-                $"{TableMethods.TableMethods.GenerateCell(foundCustomer.Message, "text", 79)}|");
-            Console.WriteLine("   |---------------------------------------------------------------------------------------------------------------------------------|");
-            EndSubmenu();
+            if (foundCustomer != null)
+            {
+                Console.WriteLine("    _________________________________________________________________________________________________________________________________");
+                Console.WriteLine("   |   First Name   |     Last Name     |    Type    |                                 Email Message                                 |");
+                Console.WriteLine("   |----------------|-------------------|------------|-------------------------------------------------------------------------------|");
+                Console.WriteLine($"   |{TableMethods.TableMethods.GenerateCell(foundCustomer.FirstName, "text", 16)}|" +
+                    $"{TableMethods.TableMethods.GenerateCell(foundCustomer.LastName, "text", 19)}|" +
+                    $"{TableMethods.TableMethods.GenerateCell(foundCustomer.CustomerType.ToString(), "text", 12)}|" +
+                    $"{TableMethods.TableMethods.GenerateCell(foundCustomer.Message, "text", 79)}|");
+                Console.WriteLine("   |---------------------------------------------------------------------------------------------------------------------------------|");
+                EndSubmenu();
+            }
+            else
+            {
+                Console.WriteLine(" ");
+                Console.WriteLine($"Could not find customer {firstNameInput} {lastNameInput}.");
+                EndSubmenu();
+            }
         }
 
         public void CreateCustomer()
@@ -107,6 +116,7 @@ namespace ChallengeFive.UI
             Console.WriteLine(" ");
             Console.WriteLine("Enter the customer's last name:\n");
             userCustomer.LastName = Console.ReadLine();
+            Console.WriteLine(" ");
             Console.WriteLine("Choose the type of customer:\n" +
                 "1: Current Customer\n" +
                 "2: Past Customer\n" +
@@ -128,6 +138,7 @@ namespace ChallengeFive.UI
                     break;
             }
             _customerRepo.AddCustomer(userCustomer);
+            Console.WriteLine(" ");
             Console.WriteLine("The new customer has been added!");
             EndSubmenu();
         }
@@ -140,50 +151,63 @@ namespace ChallengeFive.UI
             Console.WriteLine(" ");
             Console.WriteLine("Enter the customer's last name:\n");
             string lastNameInput = Console.ReadLine().ToLower();
-            Console.WriteLine("    _________________________________________________________________________________________________________________________________");
-            Console.WriteLine("   |   First Name   |     Last Name     |    Type    |                                 Email Message                                 |");
-            Console.WriteLine("   |----------------|-------------------|------------|-------------------------------------------------------------------------------|");
             Customer foundCustomer = _customerRepo.GetCustomerByFullName(lastNameInput, firstNameInput);
-            Console.WriteLine($"   |{TableMethods.TableMethods.GenerateCell(foundCustomer.FirstName, "text", 16)}|" +
-                $"{TableMethods.TableMethods.GenerateCell(foundCustomer.LastName, "text", 19)}|" +
-                $"{TableMethods.TableMethods.GenerateCell(foundCustomer.CustomerType.ToString(), "text", 12)}|" +
-                $"{TableMethods.TableMethods.GenerateCell(foundCustomer.Message, "text", 79)}|");
-            Console.WriteLine("   |---------------------------------------------------------------------------------------------------------------------------------|");
-            Console.WriteLine(" ");
-            Console.WriteLine(" ");
-            Console.WriteLine("Please enter customer information as you would like it stored:\n");
-            Console.WriteLine(" ");
-            Console.WriteLine("Press any key to continue.");
-            Console.ReadKey();
-            Customer updatedCustomer = new Customer();
-            Console.WriteLine("Enter the customer's first name:\n");
-            updatedCustomer.FirstName = Console.ReadLine();
-            Console.WriteLine(" ");
-            Console.WriteLine("Enter the customer's last name:\n");
-            updatedCustomer.LastName = Console.ReadLine();
-            Console.WriteLine("Choose the type of customer:\n" +
-                "1: Current Customer\n" +
-                "2: Past Customer\n" +
-                "3: Potential Customer\n");
-            string typeInput = Console.ReadLine();
-            switch (typeInput)
+            if (foundCustomer != null)
             {
-                case "1":
-                    updatedCustomer.CustomerType = CustomerType.Current;
-                    break;
-                case "2":
-                    updatedCustomer.CustomerType = CustomerType.Past;
-                    break;
-                case "3":
-                    updatedCustomer.CustomerType = CustomerType.Potential;
-                    break;
-                default:
-                    Console.WriteLine("Please choose a number 1-3.");
-                    break;
+                Console.WriteLine("    _________________________________________________________________________________________________________________________________");
+                Console.WriteLine("   |   First Name   |     Last Name     |    Type    |                                 Email Message                                 |");
+                Console.WriteLine("   |----------------|-------------------|------------|-------------------------------------------------------------------------------|");
+                Console.WriteLine($"   |{TableMethods.TableMethods.GenerateCell(foundCustomer.FirstName, "text", 16)}|" +
+                    $"{TableMethods.TableMethods.GenerateCell(foundCustomer.LastName, "text", 19)}|" +
+                    $"{TableMethods.TableMethods.GenerateCell(foundCustomer.CustomerType.ToString(), "text", 12)}|" +
+                    $"{TableMethods.TableMethods.GenerateCell(foundCustomer.Message, "text", 79)}|");
+                Console.WriteLine("   |---------------------------------------------------------------------------------------------------------------------------------|");
+                Console.WriteLine(" ");
+                Console.WriteLine(" ");
+                Console.WriteLine("Please enter customer information as you would like it stored:\n");
+                Console.WriteLine(" ");
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadKey();
+                Console.WriteLine(" ");
+                Customer updatedCustomer = new Customer();
+                Console.WriteLine("Enter the customer's first name:\n");
+                updatedCustomer.FirstName = Console.ReadLine();
+                Console.WriteLine(" ");
+                Console.WriteLine("Enter the customer's last name:\n");
+                updatedCustomer.LastName = Console.ReadLine();
+                Console.WriteLine(" ");
+                Console.WriteLine("Choose the type of customer:\n" +
+                    "1: Current Customer\n" +
+                    "2: Past Customer\n" +
+                    "3: Potential Customer\n");
+                string typeInput = Console.ReadLine();
+                switch (typeInput)
+                {
+                    case "1":
+                        updatedCustomer.CustomerType = CustomerType.Current;
+                        break;
+                    case "2":
+                        updatedCustomer.CustomerType = CustomerType.Past;
+                        break;
+                    case "3":
+                        updatedCustomer.CustomerType = CustomerType.Potential;
+                        break;
+                    default:
+                        Console.WriteLine("Please choose a number 1-3.");
+                        break;
+                }
+                _customerRepo.UpdateCustomer(lastNameInput, firstNameInput, updatedCustomer);
+                Console.WriteLine(" ");
+                Console.WriteLine("The customer has been successfully updated!");
+                EndSubmenu();
             }
-            _customerRepo.UpdateCustomer(lastNameInput, firstNameInput, updatedCustomer);
-            Console.WriteLine("The customer has been successfully updated!");
-            EndSubmenu();
+            else
+            {
+                Console.WriteLine(" ");
+                Console.WriteLine($"Could not find customer {firstNameInput} {lastNameInput}.");
+                EndSubmenu();
+            }
+
         }
 
         public void DeleteCustomer()
@@ -194,33 +218,45 @@ namespace ChallengeFive.UI
             Console.WriteLine(" ");
             Console.WriteLine("Enter the customer's last name:\n");
             string lastNameInput = Console.ReadLine().ToLower();
-            Console.WriteLine("    _________________________________________________________________________________________________________________________________");
-            Console.WriteLine("   |   First Name   |     Last Name     |    Type    |                                 Email Message                                 |");
-            Console.WriteLine("   |----------------|-------------------|------------|-------------------------------------------------------------------------------|");
             Customer foundCustomer = _customerRepo.GetCustomerByFullName(lastNameInput, firstNameInput);
-            Console.WriteLine($"   |{TableMethods.TableMethods.GenerateCell(foundCustomer.FirstName, "text", 16)}|" +
-                $"{TableMethods.TableMethods.GenerateCell(foundCustomer.LastName, "text", 19)}|" +
-                $"{TableMethods.TableMethods.GenerateCell(foundCustomer.CustomerType.ToString(), "text", 12)}|" +
-                $"{TableMethods.TableMethods.GenerateCell(foundCustomer.Message, "text", 79)}|");
-            Console.WriteLine("   |---------------------------------------------------------------------------------------------------------------------------------|");
-            Console.WriteLine(" ");
-            Console.WriteLine("Do you want to permanantly remove this customer from the directory?\n" +
-                "1: Yes\n" +
-                "2: No\n");
-            string userConfirm = Console.ReadLine();
-            switch (userConfirm)
+            if (foundCustomer != null)
             {
-                case "1":
-                    _customerRepo.RemoveCustomer(foundCustomer);
-                    break;
-                case "2":
-                    Console.WriteLine("The customer remains in the directory.");
-                    break;
-                default:
-                    Console.WriteLine("Select option 1 or 2.");
-                    break;
+                Console.WriteLine("    _________________________________________________________________________________________________________________________________");
+                Console.WriteLine("   |   First Name   |     Last Name     |    Type    |                                 Email Message                                 |");
+                Console.WriteLine("   |----------------|-------------------|------------|-------------------------------------------------------------------------------|");
+                Console.WriteLine($"   |{TableMethods.TableMethods.GenerateCell(foundCustomer.FirstName, "text", 16)}|" +
+                    $"{TableMethods.TableMethods.GenerateCell(foundCustomer.LastName, "text", 19)}|" +
+                    $"{TableMethods.TableMethods.GenerateCell(foundCustomer.CustomerType.ToString(), "text", 12)}|" +
+                    $"{TableMethods.TableMethods.GenerateCell(foundCustomer.Message, "text", 79)}|");
+                Console.WriteLine("   |---------------------------------------------------------------------------------------------------------------------------------|");
+                Console.WriteLine(" ");
+                Console.WriteLine("Do you want to permanantly remove this customer from the directory?\n" +
+                    "1: Yes\n" +
+                    "2: No\n");
+                string userConfirm = Console.ReadLine();
+                switch (userConfirm)
+                {
+                    case "1":
+                        string deletedCustomer = $"{foundCustomer.FirstName} {foundCustomer.LastName}";
+                        _customerRepo.RemoveCustomer(foundCustomer);
+                        Console.WriteLine(" ");
+                        Console.WriteLine($"{deletedCustomer} was removed from the directory.");
+                        break;
+                    case "2":
+                        Console.WriteLine("The customer remains in the directory.");
+                        break;
+                    default:
+                        Console.WriteLine("Select option 1 or 2.");
+                        break;
+                }
+                EndSubmenu();
             }
-            EndSubmenu();
+            else
+            {
+                Console.WriteLine(" ");
+                Console.WriteLine($"Could not find customer {firstNameInput} {lastNameInput}.");
+                EndSubmenu();
+            }
         }
 
         public void BeginSubmenu(string submenuHeader)
@@ -251,7 +287,8 @@ namespace ChallengeFive.UI
             Customer ten = new Customer("Funke", "Tobias", CustomerType.Past);
             Customer eleven = new Customer("Parmesan", "Gene", CustomerType.Current);
 
-
+            _customerRepo.AddCustomer(one);
+            _customerRepo.AddCustomer(two);
             _customerRepo.AddCustomer(three);
             _customerRepo.AddCustomer(four);
             _customerRepo.AddCustomer(five);

@@ -25,8 +25,8 @@ namespace ChallengeFour.UI
                 Console.WriteLine(" ");
                 Console.WriteLine("Select a number:\n" +
                     "1: Add Outing to Directory\n" +
-                    "2: View Outing Costs\n" +
-                    "3: View Outings\n" +
+                    "2: View Outings by Type\n" +
+                    "3: View All Outings\n" +
                     "4: Exit");
                 string userSelection = Console.ReadLine();
                 switch (userSelection)
@@ -149,7 +149,7 @@ namespace ChallengeFour.UI
                     break;
             }
             Console.WriteLine(" ");
-            Console.WriteLine("How many employees attended the outing?");
+            Console.WriteLine("How many people attended the outing?");
             int attendanceInput = int.Parse(Console.ReadLine());
             userOuting.Attendance = attendanceInput;
             Console.WriteLine(" ");
@@ -287,15 +287,23 @@ namespace ChallengeFour.UI
                 Console.WriteLine($"   |{TableMethods.TableMethods.GenerateCell(outing.Date.ToString("MM-dd-yy"), "number", 10)}|" +
                     $"{TableMethods.TableMethods.GenerateCell(outing.EventType.ToString(), "text", 16)}|" +
                     $"{TableMethods.TableMethods.GenerateCell(outing.Attendance.ToString(), "number", 11)}|" +
-                    $"{TableMethods.TableMethods.GenerateCell(outing.HeadCost.ToString(), "money", 17)}|" +
-                    $"{TableMethods.TableMethods.GenerateCell(outing.TotalCost.ToString(), "money", 16)}|");
+                    $"{TableMethods.TableMethods.GenerateCell(outing.HeadCost.ToString("F2"), "money", 17)}|" +
+                    $"{TableMethods.TableMethods.GenerateCell(outing.TotalCost.ToString("F2"), "money", 16)}|");
             }
             Console.WriteLine("   |--------------------------------------------------------------------------|");
+            double grandTotalYTD = 0;
+            foreach (Outing outing in currentYearOutings)
+            {
+                grandTotalYTD = grandTotalYTD + outing.TotalCost;
+            }
+            Console.WriteLine("                             " +
+                $"TOTAL COST OF ALL OUTINGS (YTD): {TableMethods.TableMethods.GenerateCell(grandTotalYTD.ToString("F2"), "money", 16)}");
             EndSubmenu();
         }
 
         public void ShowAllOutings()
         {
+            BeginSubmenu("ALL OUTINGS");
             Console.WriteLine("    __________________________________________________________________________");
             Console.WriteLine("   |   Date   |   Event Type   | Attendees | Cost Per Person |   Total Cost   |");
             Console.WriteLine("   |----------|----------------|-----------|-----------------|----------------|");
@@ -305,10 +313,17 @@ namespace ChallengeFour.UI
                 Console.WriteLine($"   |{TableMethods.TableMethods.GenerateCell(outing.Date.ToString("MM-dd-yy"), "number", 10)}|" +
                                    $"{TableMethods.TableMethods.GenerateCell(outing.EventType.ToString(), "text", 16)}|" +
                                    $"{TableMethods.TableMethods.GenerateCell(outing.Attendance.ToString(), "number", 11)}|" +
-                                   $"{TableMethods.TableMethods.GenerateCell(outing.HeadCost.ToString(), "money", 17)}|" +
-                                   $"{TableMethods.TableMethods.GenerateCell(outing.TotalCost.ToString(), "money", 16)}|");
+                                   $"{TableMethods.TableMethods.GenerateCell(outing.HeadCost.ToString("F2"), "money", 17)}|" +
+                                   $"{TableMethods.TableMethods.GenerateCell(outing.TotalCost.ToString("F2"), "money", 16)}|");
             }
             Console.WriteLine("   |--------------------------------------------------------------------------|");
+            double grandTotal = 0;
+            foreach (Outing outing in allOutings)
+            {
+                grandTotal = grandTotal + outing.TotalCost;
+            }
+            Console.WriteLine("                                   " +
+                $"TOTAL COST OF ALL OUTINGS: {TableMethods.TableMethods.GenerateCell(grandTotal.ToString("F2"), "money", 16)}");
             EndSubmenu();
         }
 
